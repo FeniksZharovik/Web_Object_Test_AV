@@ -14,6 +14,7 @@ This repository is used to store web objects needed for system testing before im
 ## Folder Structure
 - `src/`: Stores web objects to be tested.
 - `tests/`: Saves test scripts and logs.
+
 Note: adapt to conditions
 
 ## License?
