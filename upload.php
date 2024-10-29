@@ -1,24 +1,27 @@
 <?php
-include 'db.php';
+include 'config.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile_picture'])) {
-    $image = file_get_contents($_FILES['profile_picture']['tmp_name']);
+if (isset($_FILES['profilePicture']) && $_FILES['profilePicture']['error'] === 0) {
+    $imageData = file_get_contents($_FILES['profilePicture']['tmp_name']);
 
-    // Cek apakah data sudah ada
-    $stmt = $pdo->query("SELECT * FROM users WHERE id = 1");
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Check if a profile picture already exists
+    $query = "SELECT * FROM users WHERE id = 1";
+    $result = $conn->query($query);
 
-    if ($user) {
-        // Update jika sudah ada
-        $stmt = $pdo->prepare("UPDATE users SET profile_picture = ? WHERE id = 1");
+    if ($result->num_rows > 0) {
+        // Update existing profile picture
+        $stmt = $conn->prepare("UPDATE users SET profile_picture = ? WHERE id = 1");
     } else {
-        // Insert jika belum ada
-        $stmt = $pdo->prepare("INSERT INTO users (profile_picture) VALUES (?)");
+        // Insert new profile picture
+        $stmt = $conn->prepare("INSERT INTO users (id, profile_picture) VALUES (1, ?)");
     }
 
-    $stmt->execute([$image]);
+    $stmt->bind_param("s", $imageData);
+    $stmt->execute();
+    $stmt->close();
 }
 
-header('Location: index.php');
+$conn->close();
+header("Location: index.php");
 exit();
 ?>
