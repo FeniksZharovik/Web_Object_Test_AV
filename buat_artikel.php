@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             max-height: 400px;
             overflow-y: auto;
         }
-        .ql-editor img {
-            max-width: 200px; /* Membatasi lebar gambar */
-            max-height: 150px; /* Membatasi tinggi gambar */
+        .ql-editor img, .ql-editor video {
+            max-width: 200px; /* Membatasi lebar gambar dan video */
+            max-height: 150px; /* Membatasi tinggi gambar dan video */
             width: auto;
             height: auto;
         }
@@ -40,10 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h1>Buat Artikel Baru</h1>
-    <form action="buat_artikel.php" method="post">
+    <form action="buat_artikel.php" method="post" enctype="multipart/form-data">
         <input type="text" name="judul" placeholder="Judul" required><br>
         <div id="editor-container"></div>
         <input type="hidden" name="paragraf" id="paragraf">
+        <input type="file" id="videoInput" accept="video/*"><br>
         <button type="submit">Simpan</button>
     </form>
 
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [{ 'font': [] }],
             [{ 'align': [] }],
 
-            ['image'],                                        // image button
+            ['image', 'video'],                               // image and video buttons
             ['clean']                                         // remove formatting button
         ];
 
@@ -74,6 +75,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             theme: 'snow',
             modules: {
                 toolbar: toolbarOptions
+            }
+        });
+
+        document.getElementById('videoInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'video', e.target.result);
+                };
+                reader.readAsDataURL(file);
             }
         });
 
