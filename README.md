@@ -1,21 +1,27 @@
-# Web Object Repository
+# 🌐 Web Object Repository
 
-This repository is used to store web objects needed for system testing before implementation. This repository is temporary, where all data will be deleted automatically every time a new test is carried out, so it is always updated according to the latest testing needs.
+![Repository Banner](https://via.placeholder.com/800x200?text=Web+Object+Repository)
 
-## Feature
-- **Temporary Storage**: Stores relevant test elements.
-- **Auto Delete**: Delete old data to ensure data is always up-to-date.
+Repositori ini digunakan untuk menyimpan objek web yang diperlukan untuk pengujian sistem sebelum implementasi. Repositori ini bersifat sementara, di mana semua data akan dihapus secara otomatis setiap kali pengujian baru dilakukan, sehingga selalu diperbarui sesuai dengan kebutuhan pengujian terbaru.
 
-## How to use
-1. Add the object or web element to be tested into this repository.
-2. Perform testing as needed.
-3. Files will be deleted automatically when a new test is started.
+## ✨ Fitur
+- **🗄️ Penyimpanan Sementara**: Menyimpan elemen uji yang relevan.
+- **🗑️ Penghapusan Otomatis**: Menghapus data lama untuk memastikan data selalu terbaru.
 
-## Folder Structure
-- `src/`: Stores web objects to be tested.
-- `tests/`: Saves test scripts and logs.
+## 🚀 Cara Menggunakan
+1. Tambahkan objek atau elemen web yang akan diuji ke dalam repositori ini.
+2. Lakukan pengujian sesuai kebutuhan.
+3. File akan dihapus secara otomatis ketika pengujian baru dimulai.
 
-Note: adapt to conditions
+## 📂 Struktur Folder
+- `src/`: Menyimpan objek web yang akan diuji.
+- `tests/`: Menyimpan skrip uji dan log.
 
-## License?
-everyone can use it
+> **Catatan**: Sesuaikan dengan kondisi
+
+## 📜 Lisensi
+Semua orang dapat menggunakannya
+
+---
+
+![Footer Image](https://via.placeholder.com/800x100?text=Happy+Testing!)
