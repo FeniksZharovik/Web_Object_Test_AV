@@ -1,6 +1,6 @@
 # 🌐 Web Object Repository
 
-![Repository Banner](https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif)
+![Repository Banner](https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif)
 
 Repositori ini digunakan untuk menyimpan objek web yang diperlukan untuk pengujian sistem sebelum implementasi. Repositori ini bersifat sementara, di mana semua data akan dihapus secara otomatis setiap kali pengujian baru dilakukan, sehingga selalu diperbarui sesuai dengan kebutuhan pengujian terbaru.
 
@@ -24,4 +24,4 @@ Semua orang dapat menggunakannya
 
 ---
 
-![Footer Animation](https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif)
+![Footer Animation](https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif)
