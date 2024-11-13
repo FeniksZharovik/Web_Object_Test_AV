@@ -72,14 +72,6 @@ function getFirstImage($htmlContent) {
                 <?php if ($coverImage): ?>
                     <img src="<?= $coverImage ?>" alt="Cover Image" class="cover-image">
                 <?php endif; ?>
-                <br>
-                <strong>Tags:</strong>
-                <?php
-                $stmt = $pdo->prepare('SELECT nama FROM tag WHERE artikel_id = ?');
-                $stmt->execute([$artikel['id']]);
-                $tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                echo implode(', ', $tags);
-                ?>
             </li>
         <?php endforeach; ?>
     </ul>
