@@ -25,68 +25,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Buat Artikel</title>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+        }
+        input[type="text"], input[type="hidden"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
         #editor-container {
-            height: 400px; /* Ukuran tetap untuk area teks */
+            height: 400px;
             max-height: 400px;
             overflow-y: auto;
-        }
-        .ql-editor img, .ql-editor video {
-            max-width: 200px; /* Membatasi lebar gambar dan video */
-            max-height: 150px; /* Membatasi tinggi gambar dan video */
-            width: auto;
-            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Buat Artikel Baru</h1>
-    <form action="buat_artikel.php" method="post" enctype="multipart/form-data">
+    <form action="buat_artikel.php" method="post">
         <input type="text" name="judul" placeholder="Judul" required><br>
         <div id="editor-container"></div>
         <input type="hidden" name="paragraf" id="paragraf">
-        <input type="file" id="videoInput" accept="video/*"><br>
+        <input type="text" name="tags" placeholder="Tag (pisahkan dengan koma)"><br>
         <button type="submit">Simpan</button>
     </form>
-
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
-        var toolbarOptions = [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-
-            ['image', 'video'],                               // image and video buttons
-            ['clean']                                         // remove formatting button
-        ];
-
         var quill = new Quill('#editor-container', {
             theme: 'snow',
             modules: {
-                toolbar: toolbarOptions
-            }
-        });
-
-        document.getElementById('videoInput').addEventListener('change', function() {
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var range = quill.getSelection();
-                    quill.insertEmbed(range.index, 'video', e.target.result);
-                };
-                reader.readAsDataURL(file);
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['image', 'video'],
+                    ['clean']
+                ]
             }
         });
 
