@@ -56,11 +56,19 @@ function getFirstImage($htmlContent) {
         }
         .logout {
             float: right;
+            margin-right: 10px;
+        }
+        .profile {
+            float: right;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Daftar Artikel <a href="logout.php" class="logout">Logout</a></h1>
+    <h1>Daftar Artikel 
+        <a href="logout.php" class="logout">Logout</a>
+        <a href="profile.php" class="profile">Profil</a>
+    </h1>
     <a href="buat_artikel.php">Buat Artikel Baru</a>
     <ul>
         <?php foreach ($artikels as $artikel): ?>

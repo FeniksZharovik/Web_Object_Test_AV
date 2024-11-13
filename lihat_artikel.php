@@ -111,16 +111,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .button-container {
             margin-top: 20px;
             margin-bottom: 20px;
+            display: flex;
         }
         .button {
-            display: inline-block;
-            margin-right: 10px;
-            padding: 10px;
+            flex: 0 0 120px;
+            margin: 0 2px;
+            padding: 8px;
             background-color: #007BFF;
             color: white;
             text-decoration: none;
             border-radius: 4px;
             cursor: pointer;
+            text-align: center;
+            font-size: 14px;
         }
         .button:hover {
             background-color: #0056b3;
