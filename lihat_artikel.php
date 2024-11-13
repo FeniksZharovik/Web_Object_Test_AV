@@ -2,6 +2,13 @@
 require 'config.php';
 session_start();
 
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['user_id'])) {
+    // Jika belum login, arahkan ke halaman login
+    header('Location: login.php');
+    exit;
+}
+
 $id = $_GET['id'];
 $userId = $_SESSION['user_id']; // Pastikan pengguna sudah login
 
@@ -30,21 +37,19 @@ $stmt->execute([$userId, $id]);
 $isBookmarked = $stmt->fetchColumn() > 0;
 
 // Fungsi untuk menambah reaksi
-function tambahReaksi($pdo, $userId, $artikelId, $jenisReaksi) {
-    // Cek apakah reaksi sudah ada
+function toggleReaksi($pdo, $userId, $artikelId, $jenisReaksi) {
     $stmt = $pdo->prepare('SELECT jenis_reaksi FROM reaksi WHERE user_id = ? AND artikel_id = ?');
     $stmt->execute([$userId, $artikelId]);
     $existingReaksi = $stmt->fetchColumn();
 
-    if ($existingReaksi) {
-        if ($existingReaksi !== $jenisReaksi) {
-            // Update reaksi jika berbeda
-            $stmt = $pdo->prepare('UPDATE reaksi SET jenis_reaksi = ? WHERE user_id = ? AND artikel_id = ?');
-            $stmt->execute([$jenisReaksi, $userId, $artikelId]);
-        }
+    if ($existingReaksi === $jenisReaksi) {
+        // Hapus reaksi jika sama
+        $stmt = $pdo->prepare('DELETE FROM reaksi WHERE user_id = ? AND artikel_id = ?');
+        $stmt->execute([$userId, $artikelId]);
     } else {
-        // Tambahkan reaksi baru
-        $stmt = $pdo->prepare('INSERT INTO reaksi (user_id, artikel_id, jenis_reaksi) VALUES (?, ?, ?)');
+        // Tambahkan atau update reaksi
+        $stmt = $pdo->prepare('INSERT INTO reaksi (user_id, artikel_id, jenis_reaksi) VALUES (?, ?, ?)
+                               ON DUPLICATE KEY UPDATE jenis_reaksi = VALUES(jenis_reaksi)');
         $stmt->execute([$userId, $artikelId, $jenisReaksi]);
     }
 }
@@ -63,9 +68,9 @@ function toggleBookmark($pdo, $userId, $artikelId, $isBookmarked) {
 // Tangani aksi dari tombol
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['like'])) {
-        tambahReaksi($pdo, $userId, $id, 'like');
+        toggleReaksi($pdo, $userId, $id, 'like');
     } elseif (isset($_POST['dislike'])) {
-        tambahReaksi($pdo, $userId, $id, 'dislike');
+        toggleReaksi($pdo, $userId, $id, 'dislike');
     } elseif (isset($_POST['bookmark'])) {
         toggleBookmark($pdo, $userId, $id, $isBookmarked);
     }
@@ -132,6 +137,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: black;
         }
     </style>
+    <script>
+        function shareArticle() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bagikan Artikel',
+                    url: url
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch(console.error);
+            } else {
+                // Fallback for browsers that do not support the Web Share API
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Link artikel telah disalin ke clipboard!');
+                }).catch((err) => {
+                    console.error('Could not copy text: ', err);
+                });
+            }
+        }
+    </script>
 </head>
 <body>
     <h1><?= htmlspecialchars($artikel['judul']) ?></h1>
@@ -146,9 +171,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" name="bookmark" class="button">
             <i class="fas fa-bookmark icon <?= $isBookmarked ? 'bookmarked' : '' ?>"></i> Bookmark
         </button>
-        <a href="#" class="button">
+        <button type="button" class="button" onclick="shareArticle()">
             <i class="fas fa-share icon"></i> Share
-        </a>
+        </button>
     </form>
     <h3>Tags:</h3>
     <div>

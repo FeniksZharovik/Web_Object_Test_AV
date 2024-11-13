@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; // atau alamat server database Anda
-$db   = 'artikel_db'; // nama database
-$user = 'root'; // nama pengguna database
-$pass = ''; // kata sandi pengguna database
+$host = 'localhost';
+$db = 'artikel_db';
+$user = 'root';
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
