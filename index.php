@@ -30,9 +30,11 @@ function getFirstImage($htmlContent) {
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f4f4f9;
         }
         h1 {
             color: #333;
+            text-align: center;
         }
         a {
             text-decoration: none;
@@ -46,21 +48,46 @@ function getFirstImage($htmlContent) {
             max-height: 75px;
             width: auto;
             height: auto;
+            border-radius: 5px;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .article-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
         }
-        li {
-            margin-bottom: 15px;
+        .article-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 300px;
+            transition: transform 0.2s;
         }
-        .logout {
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        .article-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .logout, .profile {
             float: right;
             margin-right: 10px;
         }
-        .profile {
-            float: right;
-            margin-right: 10px;
+        .create-article {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            width: 200px;
+        }
+        .create-article:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -69,19 +96,19 @@ function getFirstImage($htmlContent) {
         <a href="logout.php" class="logout">Logout</a>
         <a href="profile.php" class="profile">Profil</a>
     </h1>
-    <a href="buat_artikel.php">Buat Artikel Baru</a>
-    <ul>
+    <a href="buat_artikel.php" class="create-article">Buat Artikel Baru</a>
+    <div class="article-list">
         <?php foreach ($artikels as $artikel): ?>
-            <li>
-                <a href="lihat_artikel.php?id=<?= $artikel['id'] ?>">
+            <div class="article-card">
+                <a href="lihat_artikel.php?id=<?= $artikel['id'] ?>" class="article-title">
                     <?= htmlspecialchars($artikel['judul']) ?>
                 </a>
                 <?php $coverImage = getFirstImage($artikel['paragraf']); ?>
                 <?php if ($coverImage): ?>
                     <img src="<?= $coverImage ?>" alt="Cover Image" class="cover-image">
                 <?php endif; ?>
-            </li>
+            </div>
         <?php endforeach; ?>
-    </ul>
+    </div>
 </body>
 </html>
